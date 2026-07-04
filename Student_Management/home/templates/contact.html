@@ -1,0 +1,84 @@
+{% extends 'base.html'%}
+{% block content %}
+
+
+<body class="bg-light">
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            {% comment %} <div class="card shadow">
+
+                <div class="card-header bg-primary text-white text-center">
+                    <h2>Contact Us</h2>
+                    <p class="mb-0">We'd love to hear from you!</p>
+                </div>
+
+                <div class="card-body p-4">
+
+                    <form method="POST">
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+                            <label class="form-label">Full Name</label>
+                            <input type="text" class="form-control" name="name" placeholder="Enter your full name" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Email Address</label>
+                            <input type="email" class="form-control" name="email" placeholder="Enter your email" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Subject</label>
+                            <input type="text" class="form-control" name="subject" placeholder="Enter subject" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Message</label>
+                            <textarea class="form-control" rows="5" name="message" placeholder="Write your message here..." required></textarea>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">
+                                Send Message
+                            </button>
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div> {% endcomment %}
+
+            <!-- Contact Information -->
+            <div class="card shadow mt-4">
+
+                <div class="card-body">
+
+                    <h4 class="mb-3">Contact Information</h4>
+
+                    <p><strong>📧 Email:</strong> support@studentmanagement.com</p>
+
+                    <p><strong>📞 Phone:</strong> +91 98765 00000</p>
+
+                    <p><strong>📍 Address:</strong> Mumbai, Maharashtra, India</p>
+
+                    <p class="mb-0">
+                        We aim to respond to all queries within 24 hours.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

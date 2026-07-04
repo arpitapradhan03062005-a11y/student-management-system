@@ -1,0 +1,344 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<nav class="nav nav-pills flex-column flex-sm-row mb-4">
+    <a class="flex-sm-fill text-sm-center nav-link active bg-dark text-white" href="{% url 'home' %}">Dashboard</a>
+    <a class="flex-sm-fill text-sm-center nav-link text-dark" href="{% url 'add_student' %}">Add Student</a>
+    <a class="flex-sm-fill text-sm-center nav-link text-dark" href="{% url 'view_student' %}">View Students</a>
+</nav>
+
+<div class="container">
+
+    <!-- Welcome Banner -->
+    <div class="p-5 mb-4 bg-dark text-white rounded shadow">
+        <h2>Welcome, {{ request.user.username }} 👋</h2>
+        <p class="mb-0">
+            Manage student records efficiently using the Student Management System.
+        </p>
+    </div>
+
+    <!-- Statistics -->
+<div class="row">
+
+    <div class="col-md-4 mb-4">
+        <div class="card bg-success text-white shadow">
+            <div class="card-body text-center">
+                <h1>👨‍🎓</h1>
+                <h5>Total Students</h5>
+                <h2>{{ total_students }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+        <div class="card bg-primary text-white shadow">
+        
+            <div class="card-body text-center">
+                <h1>👨</h1>
+                <h5>Male Students</h5>
+                <h2>{{ male_students }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+        <div class="card text-white shadow" style="background-color:#e83e8c;">
+            <div class="card-body text-center">
+                <h1>👩</h1>
+                <h5>Female Students</h5>
+                <h2>{{ female_students }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+        <div class="card text-white shadow" style="background-color:#fd7e14;">
+            <div class="card-body text-center">
+                <h1>🏫</h1>
+                <h5>Departments</h5>
+                <h2>{{ departments }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+        <div class="card text-white shadow" style="background-color:#6f42c1;">
+            <div class="card-body text-center">
+                <h1>📚</h1>
+                <h5>Semesters</h5>
+                <h2>{{ semesters }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+        <div class="card bg-dark text-white shadow">
+            <div class="card-body text-center">
+                <h1>📅</h1>
+                <h5>Today's Date</h5>
+                <h5>{{ today }}</h5>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+    <!-- Quick Actions -->
+    <div class="card shadow mt-4">
+
+        <div class="card-header bg-dark text-white">
+            <h4>Quick Actions</h4>
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-md-6 mb-3">
+                    <a href="{% url 'add_student' %}" class="btn btn-success w-100">
+                        ➕ Add Student
+                    </a>
+                </div>
+
+
+                <div class="col-md-6 mb-3">
+                    <a href="{% url 'view_student' %}" class="btn btn-primary w-100">
+                        📋 View Students
+                    </a>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <a href="{% url 'mark_attendance' %}" class="btn btn-warning w-100">
+                        🗓️ Mark Attendance
+                    </a>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <a href="{% url 'enter_marks' %}" class="btn btn-secondary w-100">
+                        📝 Enter Marks
+                    </a>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <a href="{% url 'profile' %}" class="btn btn-info w-100">
+                        👤 My Profile
+                    </a>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <a href="{% url 'logout' %}" class="btn btn-danger w-100">
+                        🚪 Logout
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Recently Added Students -->
+    <div class="card shadow mt-4 mb-5">
+
+        <div class="card-header bg-secondary text-white">
+            <h4>Recently Added Students</h4>
+        </div>
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover table-striped align-middle">
+
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Photo</th>
+                            <th>Roll No.</th>
+                            <th>Name</th>
+                            <th>Department</th>
+                            <th>Semester</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                    {% for student in recent_students %}
+
+                        <tr>
+
+                            <td>
+
+                                {% if student.photo %}
+                                    <img src="{{ student.photo.url }}"
+                                         width="50"
+                                         height="50"
+                                         class="rounded-circle border">
+                                {% else %}
+                                    <img src="https://via.placeholder.com/50"
+                                         class="rounded-circle">
+                                {% endif %}
+
+                            </td>
+
+                            <td>{{ student.roll_number }}</td>
+
+                            <td>{{ student.name }}</td>
+
+                            <td>
+                                <span class="badge bg-info">
+                                    {{ student.department }}
+                                </span>
+                            </td>
+
+                            <td>
+                                <span class="badge bg-secondary">
+                                    Semester {{ student.semester }}
+                                </span>
+                            </td>
+
+                            <td>{{ student.email }}</td>
+
+                        </tr>
+
+                    {% empty %}
+
+                        <tr>
+                            <td colspan="6" class="text-center text-muted">
+                                No students added yet.
+                            </td>
+                        </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+{% comment %} added {% endcomment %}
+<hr class="my-5">
+
+<h2 class="text-center mb-4">Student Analytics</h2>
+
+<div class="row justify-content-center">
+
+<div class="col-md-10">
+<div class="card shadow mt-4 mb-5">
+<div class="card-header center bg-dark text-white">
+Students by Department
+</div>
+
+<div class="card-body">
+<canvas id="deptChart"></canvas>
+</div>
+
+</div>
+</div>
+
+<div class="row justify-content-center">
+
+    <div class="col-md-5">
+        <div class="card shadow mb-4">
+            <div class="card-header bg-success text-white">
+                Gender Distribution
+            </div>
+
+            <div class="card-body">
+                <canvas id="genderChart"></canvas>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-md-5">
+        <div class="card shadow mb-4">
+
+            <div class="card-header bg-warning">
+                Semester-wise Students
+            </div>
+
+            <div class="card-body">
+                <canvas id="semesterChart"></canvas>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+new Chart(document.getElementById("deptChart"),{
+
+type:'bar',
+
+data:{
+
+labels:{{ dept_labels|safe }},
+
+datasets:[{
+
+label:'Students',
+
+data:{{ dept_counts|safe }}
+
+}]
+
+}
+
+});
+
+
+
+new Chart(document.getElementById("genderChart"),{
+
+type:'pie',
+
+data:{
+
+labels:['Male','Female'],
+
+datasets:[{
+
+data:[{{ male_students }},{{ female_students }}]
+
+}]
+
+}
+
+});
+
+
+
+new Chart(document.getElementById("semesterChart"),{
+
+type:'doughnut',
+
+data:{
+
+labels:{{ sem_labels|safe }},
+
+datasets:[{
+
+data:{{ sem_counts|safe }}
+
+}]
+
+}
+
+});
+
+</script>
+
+{% endblock %}

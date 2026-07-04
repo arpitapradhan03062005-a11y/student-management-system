@@ -1,0 +1,229 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    {% if student %}
+
+    <div class="card shadow-lg">
+
+        <div class="card-header bg-dark text-white">
+            <h3>My Student Profile</h3>
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-md-4 text-center">
+
+                    {% if student.photo %}
+                        <img src="{{ student.photo.url }}"
+                             class="img-fluid rounded-circle border"
+                             width="200"
+                             height="200">
+                    {% else %}
+                        <img src="https://via.placeholder.com/200"
+                             class="img-fluid rounded-circle border">
+                    {% endif %}
+
+                    {% if student.student_signature %}
+                        <div class="mt-3">
+                        <p><strong>Signature:</strong></p>
+                        <img src="{{ student.student_signature.url }}" width="150">
+                        </div>
+                    {% endif %}
+
+                </div>
+
+                <div class="col-md-8">
+
+                    <table class="table table-bordered">
+
+                        <tr>
+                            <th>Roll Number</th>
+                            <td>{{ student.roll_number }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Name</th>
+                            <td>{{ student.name }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Email</th>
+                            <td>{{ student.email }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Phone</th>
+                            <td>{{ student.phone }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Gender</th>
+                            <td>{{ student.gender }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Department</th>
+                            <td>{{ student.department }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Semester</th>
+                            <td>{{ student.semester }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Blood Group</th>
+                            <td>{{ student.blood_group|default:"—" }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Emergency Contact</th>
+                            <td>{{ student.emergency_contact|default:"—" }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Date of Birth</th>
+                            <td>{{ student.date_of_birth }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Admission Date</th>
+                            <td>{{ student.admission_date }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Address</th>
+                            <td>{{ student.address }}</td>
+                        </tr>
+
+                    </table>
+
+    {% if attendance_percentage is not None %}
+    <div class="card shadow mb-4">
+
+        <div class="card-header bg-dark text-white">
+            <h4>My Attendance</h4>
+        </div>
+
+        <div class="card-body">
+
+            <h5>
+                Overall Attendance:
+                <span class="badge {% if attendance_percentage >= 75 %}bg-success{% elif attendance_percentage >= 50 %}bg-warning{% else %}bg-danger{% endif %}">
+                    {{ attendance_percentage }}%
+                </span>
+            </h5>
+
+            <table class="table table-sm table-bordered mt-3">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for record in attendance_records %}
+                    <tr>
+                        <td>{{ record.date }}</td>
+                        <td>
+                            <span class="badge
+                                {% if record.status == 'Present' %}bg-success
+                                {% elif record.status == 'Late' %}bg-warning
+                                {% else %}bg-danger{% endif %}">
+                                {{ record.status }}
+                            </span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+    {% else %}
+    <div class="alert alert-secondary">
+        No attendance records yet.
+    </div>
+    {% endif %}
+
+    {% if results %}
+    <div class="card shadow mb-4">
+
+        <div class="card-header bg-dark text-white">
+            <h4>My Report Card</h4>
+        </div>
+
+        <div class="card-body">
+
+            <h5>
+                Overall Percentage:
+                <span class="badge {% if overall_percentage >= 75 %}bg-success{% elif overall_percentage >= 40 %}bg-warning{% else %}bg-danger{% endif %}">
+                    {{ overall_percentage }}%
+                </span>
+            </h5>
+
+            <table class="table table-bordered mt-3">
+                <thead>
+                    <tr>
+                        <th>Subject</th>
+                        <th>Exam Type</th>
+                        <th>Marks Obtained</th>
+                        <th>Max Marks</th>
+                        <th>Percentage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for result in results %}
+                    <tr>
+                        <td>{{ result.subject.name }}</td>
+                        <td>{{ result.exam_type }}</td>
+                        <td>{{ result.marks_obtained }}</td>
+                        <td>{{ result.subject.max_marks }}</td>
+                        <td>
+                            <span class="badge {% if result.percentage >= 40 %}bg-success{% else %}bg-danger{% endif %}">
+                                {{ result.percentage }}%
+                            </span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+    {% else %}
+    <div class="alert alert-secondary">
+        No results published yet.
+    </div>
+    {% endif %}
+
+    <a href="{% url 'student_id_card' student.id %}" class="btn btn-dark">
+        🪪 Generate Smart ID Card
+    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% else %}
+
+        <div class="alert alert-warning">
+            Your account is not linked to a student record yet. Please contact the administrator.
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

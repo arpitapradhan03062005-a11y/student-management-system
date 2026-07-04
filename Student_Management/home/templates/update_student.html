@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-8">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-dark text-dark">
+                    <h3 class="mb-0">✏️ Update Student</h3>
+                </div>
+
+                <div class="card-body">
+
+                    <form method="POST" enctype="multipart/form-data">
+
+                        {% csrf_token %}
+
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-success alert-dismissible fade show">
+                                    {{ message }}
+                                    <button type="button"
+                                            class="btn-close"
+                                            data-bs-dismiss="alert">
+                                    </button>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                        <style>
+                        .errorlist { color: #dc3545; list-style: none; padding-left: 0; font-size: 0.9rem; margin-top: -0.5rem; }
+                        </style>
+                        {{ form.as_p }}
+
+                        <div class="mt-4 d-flex justify-content-between">
+
+                            <a href="{% url 'view_student' %}"
+                               class="btn btn-secondary">
+                                ← Back
+                            </a>
+
+                            <button type="submit"
+                                    class="btn btn-warning">
+                                Update Student
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

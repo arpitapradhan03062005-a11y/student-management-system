@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <h2 class="mb-4">Teacher Dashboard</h2>
+
+    <div class="row mb-4">
+
+        <div class="col-md-4">
+            <div class="card text-white bg-primary">
+                <div class="card-body">
+                    <h5 class="card-title">Total Students</h5>
+                    <p class="card-text fs-3">{{ total_students }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card text-white bg-info">
+                <div class="card-body">
+                    <h5 class="card-title">Male Students</h5>
+                    <p class="card-text fs-3">{{ male_students }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card text-white bg-secondary">
+                <div class="card-body">
+                    <h5 class="card-title">Female Students</h5>
+                    <p class="card-text fs-3">{{ female_students }}</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="mb-4">
+    <a href="{% url 'add_student' %}" class="btn btn-success">+ Add Student</a>
+    <a href="{% url 'view_student' %}" class="btn btn-dark">View All Students</a>
+    <a href="{% url 'mark_attendance' %}" class="btn btn-primary">Mark Attendance</a>
+    <a href="{% url 'enter_marks' %}" class="btn btn-warning">Enter Marks</a>
+</div>
+
+    <h4>Recently Added Students</h4>
+
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>Roll Number</th>
+                <th>Name</th>
+                <th>Department</th>
+                <th>Semester</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in recent_students %}
+            <tr>
+                <td>{{ student.roll_number }}</td>
+                <td><a href="{% url 'student_detail' student.id %}">{{ student.name }}</a></td>
+                <td>{{ student.department }}</td>
+                <td>{{ student.semester }}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="4">No students yet.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+{% endblock %}

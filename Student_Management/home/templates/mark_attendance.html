@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load group_filters %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <h2 class="mb-4">Mark Attendance</h2>
+
+    <form method="get" class="row g-2 mb-4">
+
+        <div class="col-auto">
+            <label class="form-label">Date</label>
+            <input type="date" name="date" value="{{ selected_date }}" class="form-control">
+        </div>
+
+        <div class="col-auto">
+            <label class="form-label">Department</label>
+            <select name="department" class="form-select">
+                <option value="">All Departments</option>
+                {% for dept, label in departments %}
+                <option value="{{ dept }}" {% if dept == department %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="col-auto align-self-end">
+            <button type="submit" class="btn btn-secondary">Load Students</button>
+        </div>
+
+    </form>
+
+    <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="date" value="{{ selected_date }}">
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Roll Number</th>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Present</th>
+                    <th>Absent</th>
+                    <th>Late</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in students %}
+                <tr>
+                    <td>{{ student.roll_number }}</td>
+                    <td>{{ student.name }}</td>
+                    <td>{{ student.department }}</td>
+
+                    <td>
+                        <input type="radio" name="status_{{ student.id }}" value="Present"
+                            {% if existing|get_item:student.id == "Present" or not existing|get_item:student.id %}checked{% endif %}>
+                    </td>
+                    <td>
+                        <input type="radio" name="status_{{ student.id }}" value="Absent"
+                            {% if existing|get_item:student.id == "Absent" %}checked{% endif %}>
+                    </td>
+                    <td>
+                        <input type="radio" name="status_{{ student.id }}" value="Late"
+                            {% if existing|get_item:student.id == "Late" %}checked{% endif %}>
+                    </td>
+
+                </tr>
+                {% empty %}
+                <tr><td colspan="6">No students found.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <button type="submit" class="btn btn-dark">Save Attendance</button>
+
+    </form>
+
+</div>
+
+{% endblock %}
