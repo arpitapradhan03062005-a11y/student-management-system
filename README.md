@@ -53,8 +53,7 @@ A full-stack, role-based Student Management System built with Django — featuri
 ---
 
 ## 📸 Screenshots
-
-> _Add screenshots of your Admin dashboard, Student dashboard, and ID card here!_
+_
 <img width="959" height="472" alt="image" src="https://github.com/user-attachments/assets/cd2a6e23-e805-48b2-84c1-f1e7db9716fd" />
 <img width="959" height="482" alt="image" src="https://github.com/user-attachments/assets/2f18921a-5d72-4ab5-9d33-c7852ac9ebf7" />
 <img width="959" height="449" alt="image" src="https://github.com/user-attachments/assets/c56265a6-9647-480e-a178-b07cda0875b1" />
